@@ -1,0 +1,60 @@
+{
+  "name": "plotmapping",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@aws-amplify/ui-react": "^6.11.2",
+    "@react-google-maps/api": "^2.20.7",
+    "@tmcw/togeojson": "^7.1.2",
+    "@turf/bbox": "^7.2.0",
+    "@turf/boolean-intersects": "^7.2.0",
+    "@turf/buffer": "^7.2.0",
+    "@turf/center": "^7.2.0",
+    "@turf/intersect": "^7.2.0",
+    "@turf/square-grid": "^7.2.0",
+    "@turf/turf": "^7.2.0",
+    "@xmldom/xmldom": "^0.9.8",
+    "amazon-cognito-identity-js": "^6.3.15",
+    "aws-amplify": "^6.15.3",
+    "aws-sdk": "^2.1692.0",
+    "axios": "^1.10.0",
+    "bootstrap": "^5.3.7",
+    "framer-motion": "^12.6.3",
+    "lucide-react": "^0.487.0",
+    "martinez-polygon-clipping": "^0.7.4",
+    "react": "^19.0.0",
+    "react-bootstrap": "^2.10.10",
+    "react-dom": "^19.0.0",
+    "react-icons": "^5.5.0",
+    "react-router-dom": "^7.5.0",
+    "togeojson": "^0.16.0",
+    "xmldom": "^0.6.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.18.0",
+    "@types/react": "^19.0.8",
+    "@types/react-dom": "^19.0.3",
+    "@vite-pwa/assets-generator": "^0.2.6",
+    "@vitejs/plugin-react": "^4.3.4",
+    "eslint": "^9.18.0",
+    "eslint-plugin-react": "^7.37.4",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-react-refresh": "^0.4.18",
+    "globals": "^15.14.0",
+    "vite": "^6.0.11",
+    "vite-plugin-pwa": "^0.21.1",
+    "workbox-core": "^7.3.0",
+    "workbox-window": "^7.3.0"
+  },
+  "overrides": {
+    "sharp": "0.32.6",
+    "sharp-ico": "0.1.5"
+  }
+}

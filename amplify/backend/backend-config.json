@@ -1,0 +1,183 @@
+{
+  "auth": {
+    "pwaplotmapping5259f41d5259f41d": {
+      "customAuth": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn",
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "pwaplotmapping5259f41d5259f41dCreateAuthChallenge",
+          "triggerProvider": "Cognito"
+        },
+        {
+          "attributes": [
+            "Arn",
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "pwaplotmapping5259f41d5259f41dDefineAuthChallenge",
+          "triggerProvider": "Cognito"
+        },
+        {
+          "attributes": [
+            "Arn",
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "pwaplotmapping5259f41d5259f41dPostConfirmation",
+          "triggerProvider": "Cognito"
+        },
+        {
+          "attributes": [
+            "Arn",
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "pwaplotmapping5259f41d5259f41dPreSignup",
+          "triggerProvider": "Cognito"
+        },
+        {
+          "attributes": [
+            "Arn",
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "pwaplotmapping5259f41d5259f41dVerifyAuthChallengeResponse",
+          "triggerProvider": "Cognito"
+        }
+      ],
+      "frontendAuthConfig": {
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyCharacters": [],
+          "passwordPolicyMinLength": 8
+        },
+        "signupAttributes": [],
+        "socialProviders": [],
+        "usernameAttributes": [
+          "PHONE_NUMBER"
+        ],
+        "verificationMechanisms": [
+          "PHONE_NUMBER"
+        ]
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito"
+    }
+  },
+  "function": {
+    "pwaplotmapping5259f41d5259f41dCreateAuthChallenge": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "pwaplotmapping5259f41d5259f41dDefineAuthChallenge": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "pwaplotmapping5259f41d5259f41dPostConfirmation": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "pwaplotmapping5259f41d5259f41dPreSignup": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "pwaplotmapping5259f41d5259f41dVerifyAuthChallengeResponse": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_pwaplotmapping5259f41d5259f41dCreateAuthChallenge_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "pwaplotmapping5259f41d5259f41dCreateAuthChallenge"
+        }
+      ]
+    },
+    "AMPLIFY_function_pwaplotmapping5259f41d5259f41dCreateAuthChallenge_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "pwaplotmapping5259f41d5259f41dCreateAuthChallenge"
+        }
+      ]
+    },
+    "AMPLIFY_function_pwaplotmapping5259f41d5259f41dDefineAuthChallenge_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "pwaplotmapping5259f41d5259f41dDefineAuthChallenge"
+        }
+      ]
+    },
+    "AMPLIFY_function_pwaplotmapping5259f41d5259f41dDefineAuthChallenge_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "pwaplotmapping5259f41d5259f41dDefineAuthChallenge"
+        }
+      ]
+    },
+    "AMPLIFY_function_pwaplotmapping5259f41d5259f41dPostConfirmation_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "pwaplotmapping5259f41d5259f41dPostConfirmation"
+        }
+      ]
+    },
+    "AMPLIFY_function_pwaplotmapping5259f41d5259f41dPostConfirmation_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "pwaplotmapping5259f41d5259f41dPostConfirmation"
+        }
+      ]
+    },
+    "AMPLIFY_function_pwaplotmapping5259f41d5259f41dPreSignup_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "pwaplotmapping5259f41d5259f41dPreSignup"
+        }
+      ]
+    },
+    "AMPLIFY_function_pwaplotmapping5259f41d5259f41dPreSignup_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "pwaplotmapping5259f41d5259f41dPreSignup"
+        }
+      ]
+    },
+    "AMPLIFY_function_pwaplotmapping5259f41d5259f41dVerifyAuthChallengeResponse_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "pwaplotmapping5259f41d5259f41dVerifyAuthChallengeResponse"
+        }
+      ]
+    },
+    "AMPLIFY_function_pwaplotmapping5259f41d5259f41dVerifyAuthChallengeResponse_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "pwaplotmapping5259f41d5259f41dVerifyAuthChallengeResponse"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-pwaplotmapping-dev-151d0-authRole",
+      "UnauthRoleArn": "arn:aws:iam::897729104295:role/amplify-pwaplotmapping-dev-151d0-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::897729104295:role/amplify-pwaplotmapping-dev-151d0-authRole",
+      "Region": "ap-south-1",
+      "DeploymentBucketName": "amplify-pwaplotmapping-dev-151d0-deployment",
+      "UnauthRoleName": "amplify-pwaplotmapping-dev-151d0-unauthRole",
+      "StackName": "amplify-pwaplotmapping-dev-151d0",
+      "StackId": "arn:aws:cloudformation:ap-south-1:897729104295:stack/amplify-pwaplotmapping-dev-151d0/b2419a50-58a4-11f0-8575-0269b14404b9",
+      "AmplifyAppId": "d2pdmw0sn7x0n2",
+      "AuthTriggerTemplateURL": "https://s3.amazonaws.com/amplify-pwaplotmapping-dev-151d0-deployment/amplify-cfn-templates/auth/auth-trigger-cloudformation-template.json"
+    },
+    "categories": {
+      "auth": {
+        "pwaplotmapping5259f41d5259f41d": {}
+      },
+      "function": {
+        "pwaplotmapping5259f41d5259f41dCreateAuthChallenge": {
+          "deploymentBucketName": "amplify-pwaplotmapping-dev-151d0-deployment",
+          "s3Key": "amplify-builds/pwaplotmapping5259f41d5259f41dCreateAuthChallenge-446449793063662f3257-build.zip"
+        },
+        "pwaplotmapping5259f41d5259f41dDefineAuthChallenge": {
+          "deploymentBucketName": "amplify-pwaplotmapping-dev-151d0-deployment",
+          "s3Key": "amplify-builds/pwaplotmapping5259f41d5259f41dDefineAuthChallenge-692b695546544c614a77-build.zip"
+        },
+        "pwaplotmapping5259f41d5259f41dPostConfirmation": {
+          "deploymentBucketName": "amplify-pwaplotmapping-dev-151d0-deployment",
+          "s3Key": "amplify-builds/pwaplotmapping5259f41d5259f41dPostConfirmation-495a2f5555444477774f-build.zip"
+        },
+        "pwaplotmapping5259f41d5259f41dPreSignup": {
+          "deploymentBucketName": "amplify-pwaplotmapping-dev-151d0-deployment",
+          "s3Key": "amplify-builds/pwaplotmapping5259f41d5259f41dPreSignup-4943695a72454b704e61-build.zip"
+        },
+        "pwaplotmapping5259f41d5259f41dVerifyAuthChallengeResponse": {
+          "deploymentBucketName": "amplify-pwaplotmapping-dev-151d0-deployment",
+          "s3Key": "amplify-builds/pwaplotmapping5259f41d5259f41dVerifyAuthChallengeResponse-745074626f4a646d7358-build.zip"
+        }
+      }
+    }
+  }
+}

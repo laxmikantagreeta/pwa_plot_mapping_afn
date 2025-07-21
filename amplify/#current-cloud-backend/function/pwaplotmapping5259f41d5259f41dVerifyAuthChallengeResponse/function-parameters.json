@@ -1,0 +1,16 @@
+{
+  "trigger": true,
+  "modules": [
+    "boilerplate-verify"
+  ],
+  "parentResource": "pwaplotmapping5259f41d5259f41d",
+  "functionName": "pwaplotmapping5259f41d5259f41dVerifyAuthChallengeResponse",
+  "resourceName": "pwaplotmapping5259f41d5259f41dVerifyAuthChallengeResponse",
+  "parentStack": "auth",
+  "triggerEnvs": "[]",
+  "triggerDir": "C:\\snapshot\\amplify-cli\\build\\node_modules\\@aws-amplify\\amplify-category-auth\\provider-utils\\awscloudformation\\triggers\\VerifyAuthChallengeResponse",
+  "triggerTemplate": "VerifyAuthChallengeResponse.json.ejs",
+  "triggerEventPath": "VerifyAuthChallengeResponse.event.json",
+  "roleName": "pwaplotmapping5259f41d5259f41dVerifyAuthChallengeResponse",
+  "skipEdit": true
+}
