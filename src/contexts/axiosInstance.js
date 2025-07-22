@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL:"http://192.168.1.95:8000", // backend URL
+  baseURL:"http://35.154.64.13:8080",
   // baseURL: "http://localhost:8000", // backend URL
 });
 
