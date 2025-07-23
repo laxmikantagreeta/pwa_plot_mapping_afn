@@ -1,3 +1,5 @@
+
+
 import React, { useContext, useState, useEffect, useRef } from "react";
 import { GoogleMap, useLoadScript, Polygon, KmlLayer } from "@react-google-maps/api";
 import { useNavigate } from "react-router-dom";
@@ -9,14 +11,6 @@ import axios from "../contexts/axiosInstance";
 
 const containerStyle = { width: "100%", height: "300px" };
 const center = { lat: 17.6772, lng: 75.3241 };
-
-const squareAround = ({ lat, lng }, size = 0.00005) => ([
-  { lat: lat - size, lng: lng - size },
-  { lat: lat - size, lng: lng + size },
-  { lat: lat + size, lng: lng + size },
-  { lat: lat + size, lng: lng - size },
-  { lat: lat - size, lng: lng - size } // ensure closed ring
-]);
 
 function parseRawKMLCoordinates(kmlText) {
   const parser = new DOMParser();
@@ -64,7 +58,8 @@ export default function DashboardPage() {
   const [selectedDate, setSelectedDate] = useState("");
   const [vegetationData, setVegetationData] = useState([]);
   const [kmlUrl, setKmlUrl] = useState(null);
-  const shapesRef = useRef({ veg: [] });
+  const [renderedCells, setRenderedCells] = useState([]);
+
   const mapInstanceRef = useRef(null);
 
   const { isLoaded } = useLoadScript({
@@ -119,6 +114,17 @@ export default function DashboardPage() {
         const kmlText = await res.text();
         const boundaryFeature = parseRawKMLCoordinates(kmlText);
         window.boundaryGeoJSON = boundaryFeature;
+        // Fit map to boundary
+        if (mapInstanceRef.current) {
+          const turf = window.turf;
+          const bbox = turf.bbox(boundaryFeature); // [minX, minY, maxX, maxY]
+          const bounds = new window.google.maps.LatLngBounds(
+            { lat: bbox[1], lng: bbox[0] },
+            { lat: bbox[3], lng: bbox[2] }
+          );
+          mapInstanceRef.current.fitBounds(bounds);
+        }
+
       } catch (err) {
         console.error("Failed to load boundary from KML", err);
       }
@@ -126,12 +132,60 @@ export default function DashboardPage() {
     loadBoundaryFromKML();
   }, [kmlUrl]);
 
+  useEffect(() => {
+    if (!vegetationData.length || !window.boundaryGeoJSON || !isLoaded) return;
+
+    const turf = window.turf;
+    const boundary = window.boundaryGeoJSON;
+    const buffered = turf.buffer(boundary, 20, { units: "meters" });
+    const grid = turf.squareGrid(turf.bbox(buffered), 10, { units: "meters" });
+
+    const relevantCells = grid.features.filter(cell => turf.booleanIntersects(cell, boundary));
+
+    const matchedCells = relevantCells.map(cell => {
+      const center = turf.centerOfMass(cell).geometry.coordinates;
+
+      let closest = null;
+      let minDist = Infinity;
+
+      vegetationData.forEach(d => {
+        const dist = turf.distance(
+          turf.point(center),
+          turf.point([d.longitude, d.latitude]),
+          { units: "meters" }
+        );
+
+        if (dist <= 20 && dist < minDist) {
+          minDist = dist;
+          closest = d;
+        }
+      });
+
+      const matched = closest;
+      if (!matched) return null;
+
+      const clipped = turf.intersect(cell, boundary);
+      if (!clipped) return null;
+
+      const coords = clipped.geometry.coordinates[0].map(([lng, lat]) => ({ lat, lng }));
+
+      const fillColor =
+        matched.sclValue !== matched.sclThresholdValue
+          ? "#d3d3d3"
+          : matched.ndviValue < matched.ndviThresholdValue || matched.ndreValue < matched.ndreThresholdValue
+            ? "#ff0000"
+            : "#008000";
+
+      return { coords, fillColor };
+    }).filter(Boolean);
+
+    setRenderedCells(matchedCells);
+  }, [vegetationData, isLoaded]);
+
   const fullName = farmerData?.name && farmerData?.lastName ? `${farmerData.name} ${farmerData.lastName}` : "शेतकरी";
 
-  if (loading || !isLoaded)
-    return <div className="text-center py-10 text-gray-600">लोड करत आहे...</div>;
-  if (error || !farmerData)
-    return <div className="text-center py-10 text-red-600">डेटा मिळवता आला नाही</div>;
+  if (loading || !isLoaded) return <div className="text-center py-10 text-gray-600">लोड करत आहे...</div>;
+  if (error || !farmerData) return <div className="text-center py-10 text-red-600">डेटा मिळवता आला नाही</div>;
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
@@ -152,19 +206,23 @@ export default function DashboardPage() {
             setSelectedField={setSelectedField}
           />
 
-          <div className="mt-4">
-            <label className="block text-sm font-bold text-gray-700 mb-1">तारीख</label>
-            <select
-              className="w-full border border-gray-300 rounded px-2 py-1 text-sm"
-              value={selectedDate}
-              onChange={(e) => setSelectedDate(e.target.value)}
-              disabled={dateOptions.length === 0}
-            >
-              <option value="">-- निवडा --</option>
-              {dateOptions.map(date => (
-                <option key={date} value={date}>{new Date(date).toLocaleDateString("en-GB")}</option>
-              ))}
-            </select>
+          <div className="flex items-center mt-4">
+            <span className="text-sm font-bold text-gray-800 mr-2 min-w-[80px]">तारीख</span>
+            <span className="text-sm text-gray-800 mr-2">:</span>
+            <div className="relative flex-1">
+              <select
+                className="appearance-none w-full bg-transparent text-sm text-gray-800 pr-6 focus:outline-none border-b-2 border-gray-300 focus:border-green-500 pb-1"
+                value={selectedDate}
+                onChange={(e) => setSelectedDate(e.target.value)}
+                disabled={dateOptions.length === 0}
+              >
+                <option value="">-- निवडा --</option>
+                {dateOptions.map(date => (
+                  <option key={date} value={date}>{new Date(date).toLocaleDateString("en-GB")}</option>
+                ))}
+              </select>
+              <div className="absolute right-0 top-1/2 -translate-y-1/2 text-gray-600 text-sm pointer-events-none">▼</div>
+            </div>
           </div>
         </div>
       </div>
@@ -178,43 +236,39 @@ export default function DashboardPage() {
             onLoad={(map) => (mapInstanceRef.current = map)}
             options={{ zoomControl: true, streetViewControl: false, mapTypeControl: false, fullscreenControl: false }}
           >
-            {kmlUrl && !vegetationData.length && (
+            {/* {kmlUrl && !vegetationData.length && (
               <KmlLayer
                 key={kmlUrl}
                 url={kmlUrl}
                 options={{ preserveViewport: false, suppressInfoWindows: true }}
               />
+            )} */}
+
+            {window.boundaryGeoJSON && !vegetationData.length && (
+              <Polygon
+                paths={window.boundaryGeoJSON.geometry.coordinates[0].map(([lng, lat]) => ({ lat, lng }))}
+                options={{
+                  strokeColor: "#000000",
+                  strokeOpacity: 1.0,
+                  strokeWeight: 2,
+                  fillOpacity: 0,
+                }}
+              />
             )}
 
-            {vegetationData.map((item, idx) => {
-              if (!window.boundaryGeoJSON) return null;
-
-              const square = window.turf.polygon([
-                squareAround({ lat: item.latitude, lng: item.longitude }).map(p => [p.lng, p.lat])
-              ]);
-
-              const buffered = window.turf.buffer(window.boundaryGeoJSON, 20, { units: "meters" });
-              if (!window.turf.booleanIntersects(square, buffered)) return null;
-
-              const clipped = window.turf.intersect(square, window.boundaryGeoJSON);
-              if (!clipped) return null;
-
-              const coords = clipped.geometry.coordinates[0].map(([lng, lat]) => ({ lat, lng }));
-
-              const fillColor = item.sclValue !== 4
-                ? "#d3d3d3"
-                : item.ndviValue < item.ndviThresholdValue || item.ndreValue < item.ndreThresholdValue
-                  ? "#ff0000"
-                  : "#008000";
-
-              return (
-                <Polygon
-                  key={idx}
-                  paths={coords}
-                  options={{ strokeColor: "#000", strokeOpacity: 1.0, strokeWeight: 1, fillColor, fillOpacity: 1.0 }}
-                />
-              );
-            })}
+            {renderedCells.map((cell, idx) => (
+              <Polygon
+                key={idx}
+                paths={cell.coords}
+                options={{
+                  strokeColor: "#000",
+                  strokeOpacity: 1.0,
+                  strokeWeight: 1,
+                  fillColor: cell.fillColor,
+                  fillOpacity: 1.0
+                }}
+              />
+            ))}
           </GoogleMap>
         </div>
       </div>
