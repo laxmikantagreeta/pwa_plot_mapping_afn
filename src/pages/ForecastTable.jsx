@@ -1,3 +1,4 @@
+
 import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaCloudSunRain, FaUser } from "react-icons/fa";
@@ -6,6 +7,7 @@ import FooterNav from "../components/Footer";
 import { FarmerContext } from "../contexts/FarmerContext";
 import FarmSelector from "../contexts/SelectionContext";
 import axiosInstance from "../contexts/axiosInstance";
+import Header from "../components/Header";
 
 const ForecastTable = () => {
   const navigate = useNavigate();
@@ -19,9 +21,9 @@ const ForecastTable = () => {
   const [loadingForecast, setLoadingForecast] = useState(false);
   const [forecastError, setForecastError] = useState("");
 
-  // const BASE_DATE = "2025-07-15";
-  const BASE_DATE = new Date().toISOString().split("T")[0];
-
+  const BASE_DATE = "2025-07-22";
+  // const BASE_DATE = new Date().toISOString().split("T")[0];
+ 
   const fullName =
     farmerData?.name && farmerData?.lastName
       ? `${farmerData.name} ${farmerData.lastName}`
@@ -84,13 +86,13 @@ const ForecastTable = () => {
     if (selectedField) fetchForecast();
   }, [selectedField, farmerData]);
 
-  if (loading) return <div className="text-center py-10 text-gray-600">लोड करत आहे...</div>;
+  if (loading) return <div className="flex items-center justify-center h-screen text-gray-600">लोड करत आहे...</div>;
   if (error || !farmerData) return <div className="text-center py-10 text-red-600">डेटा मिळवता आला नाही</div>;
 
   return (
     <div className="bg-gray-50 min-h-screen pb-20">
       {/* Header */}
-      <header className="bg-green-500 text-white px-3 py-3 flex justify-between items-center sticky top-0 z-50 shadow-md">
+      {/* <header className="bg-green-500 text-white px-3 py-3 flex justify-between items-center sticky top-0 z-50 shadow-md">
         <button onClick={() => navigate("/SettingsPage")} className="p-2 hover:bg-green-600 rounded-md">
           <span className="text-2xl">☰</span>
         </button>
@@ -98,7 +100,8 @@ const ForecastTable = () => {
         <button onClick={() => navigate("/FarmerProfile")} className="text-xl p-2 hover:bg-green-600 rounded-md">
           <FaUser />
         </button>
-      </header>
+      </header> */}
+      <Header title={fullName} />
 
       {/* Dropdown */}
       <div className="w-full flex justify-center mt-4 px-4">
