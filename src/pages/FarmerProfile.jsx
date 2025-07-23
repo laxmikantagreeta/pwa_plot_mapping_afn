@@ -1,15 +1,14 @@
 
-
 import React, { useContext } from "react";
 import { FarmerContext } from "../contexts/FarmerContext";
 import Header from "../components/Header";
-
+import { cropMap } from "../contexts/SelectionContext";
 const FarmerProfile = () => {
   const { farmerData, loading, error } = useContext(FarmerContext);
 
   if (loading) {
     return (
-      <div className="text-center py-10 text-gray-600">
+      <div className="flex items-center justify-center h-screen text-gray-600">
         लोड करत आहे...
       </div>
     );
@@ -24,9 +23,14 @@ const FarmerProfile = () => {
   }
 
   const fields = farmerData.farms?.flatMap(farm => farm.fields) || [];
-  const crops = fields.map(f =>
-    `${f.fieldCode} - ${f.crop} (${f.totalAreaInAcre})`
-  );
+  // const crops = fields.map(f =>
+  //   `${f.fieldCode} - ${f.crop} (${f.totalAreaInAcre})`
+  // );
+  const crops = fields.map(f => {
+    const marathiCrop = cropMap[f.crop] || f.crop;
+    return `${f.fieldCode} - ${marathiCrop} (${f.totalAreaInAcre})`;
+  });
+
   const fieldCodes = fields.map(f => f.fieldCode);
 
   const profile = {
