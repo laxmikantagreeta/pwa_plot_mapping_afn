@@ -1,112 +1,3 @@
-// import React, { useRef, useEffect } from "react";
-// import {
-//   FaInfoCircle,
-//   FaUserShield,
-//   FaFileContract,
-//   FaCog,
-//   FaPowerOff,
-// } from "react-icons/fa";
-// import { useNavigate } from "react-router-dom";
-// import { FaUser } from "react-icons/fa";
-// // import { useState } from "react";  
-
-// const SettingsPage = () => {
-//   const navigate = useNavigate();
-//   const drawerRef = useRef();
-
-//   useEffect(() => {
-//     const handleClickOutside = (event) => {
-//       if (drawerRef.current && !drawerRef.current.contains(event.target)) {
-//         navigate(-1); // Go back
-//       }
-//     };
-//     document.addEventListener("mousedown", handleClickOutside);
-//     return () => document.removeEventListener("mousedown", handleClickOutside);
-//   }, [navigate]);
-
-//   const handleLogout = () => {
-//     localStorage.removeItem("accessToken");
-//     navigate("/");
-//   };
-
-//   const handleClick = (label) => {
-//     alert(`Clicked on: ${label}`);
-//     // or route logic here (navigate("/privacy-policy")) etc.
-//   };
-
-//   // const routeMap = {
-//   //   "ॲपबद्दल माहिती": "/about",
-//   //   "गोपनीयता धोरण": "/privacy-policy",
-//   //   "सेवेच्या अटी": "/terms-of-service",
-//   //   "सेटिंग्ज": "/settings-panel",
-//   // };
-
-//   // const handleClick = (label) => {
-//   //   const path = routeMap[label];
-//   //   if (path) navigate(path);
-//   // };
-
-//   return (
-//     <div className="min-h-screen fixed inset-0 bg-black/30 z-50 flex">
-//       <div
-//         ref={drawerRef}
-//         className="w-72 min-h-screen bg-white border-r border-gray-300 shadow-lg relative animate-slide-in"
-//       >
-//         {/* Header */}
-//         <div className="bg-green-500 text-gray text-center p-4">
-//           <div className="w-16 h-16 mx-auto rounded-full bg-white flex items-center justify-center mb-2">
-//             {/* <span className="text-3xl text-gray-500">👤</span> */}
-//             <button
-//                                 onClick={() => navigate("/FarmerProfile")}
-//                                 className="text-2xl text-gray hover:cursor-pointer"
-//                                 aria-label="Farmer Profile"
-//                             >
-//                                 <FaUser />
-//                             </button>
-//           </div>
-//           <div className="font-semibold text-base">Shubham Bagal</div>
-//         </div>
-
-//         {/* Menu Items */}
-//         <div className="px-4 py-5 space-y-3">
-//           {[
-//             { icon: FaInfoCircle, label: "ॲपबद्दल माहिती" },
-//             { icon: FaUserShield, label: "गोपनीयता धोरण" },
-//             { icon: FaFileContract, label: "सेवेच्या अटी" },
-//             { icon: FaCog, label: "सेटिंग्ज" },
-//           ].map(({ icon: Icon, label }) => (
-//             <button
-//               key={label}
-//               onClick={() => handleClick(label)}
-//               className="w-full flex items-center space-x-3 border-b pb-2 text-left text-sm font-medium text-gray-800 hover:bg-gray-100 px-2 py-2 cursor-pointer"
-//             >
-//               <Icon className="text-green-500 text-lg" />
-//               <span>{label}</span>
-//             </button>
-//           ))}
-//         </div>
-
-//         {/* Logout */}
-//         <button
-//           onClick={handleLogout}
-//           className="absolute bottom-12 left-4 flex items-center gap-3 text-lg font-medium text-gray-800 hover:text-red-600 hover:  cursor-pointer"
-//         >
-//           <FaPowerOff className="text-red-500 text-lg" />
-//           लॉगआउट
-//         </button>
-
-//         {/* Version */}
-//         <div className="absolute bottom-4 left-4 text-xs text-gray-400">
-//           V 1.0.0
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default SettingsPage;
-
-
 
 import React, { useRef, useEffect, useContext } from "react";
 import {
@@ -125,7 +16,6 @@ const SettingsPage = () => {
   const navigate = useNavigate();
   const drawerRef = useRef();
   const { farmerData } = useContext(FarmerContext); // ✅ Access farmerData
-  // const { setAccessToken, setFarmerMobile } = useContext(AuthContext);
   const { logout } = useContext(AuthContext);
   const { clearFarmerData } = useContext(FarmerContext);
 
@@ -139,15 +29,6 @@ const SettingsPage = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [navigate]);
 
-  // const handleLogout = () => {
-  //   localStorage.removeItem("accessToken");
-  //   localStorage.removeItem("farmerMobile");
-  //   setAccessToken("");
-  //   setFarmerMobile("");
-  //   setFarmerData(null)
-  //   navigate("/"); // Redirect to login
-
-  // };
   const handleLogout = () => {
     logout();                // clear token + mobile + localStorage
     clearFarmerData();       // clear cached farmer profile
@@ -159,17 +40,6 @@ const SettingsPage = () => {
     // or route logic here (navigate("/privacy-policy")) etc.
   };
 
-  // const routeMap = {
-  //   "ॲपबद्दल माहिती": "/about",
-  //   "गोपनीयता धोरण": "/privacy-policy",
-  //   "सेवेच्या अटी": "/terms-of-service",
-  //   "सेटिंग्ज": "/settings-panel",
-  // };
-
-  // const handleClick = (label) => {
-  //   const path = routeMap[label];
-  //   if (path) navigate(path);
-  // };
 
   const fullName = farmerData?.name && farmerData?.lastName
     ? `${farmerData.name} ${farmerData.lastName}`
