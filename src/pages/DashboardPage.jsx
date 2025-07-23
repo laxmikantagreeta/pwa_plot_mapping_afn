@@ -8,7 +8,7 @@ import { FaUser } from "react-icons/fa";
 import { FarmerContext } from "../contexts/FarmerContext";
 import FarmSelector from "../contexts/SelectionContext";
 import axios from "../contexts/axiosInstance";
-
+import Header from "../components/Header";
 const containerStyle = { width: "100%", height: "300px" };
 const center = { lat: 17.6772, lng: 75.3241 };
 
@@ -184,18 +184,19 @@ export default function DashboardPage() {
 
   const fullName = farmerData?.name && farmerData?.lastName ? `${farmerData.name} ${farmerData.lastName}` : "शेतकरी";
 
-  if (loading || !isLoaded) return <div className="text-center py-10 text-gray-600">लोड करत आहे...</div>;
+  if (loading || !isLoaded) return <div className="flex items-center justify-center h-screen text-gray-600">लोड करत आहे...</div>;
   if (error || !farmerData) return <div className="text-center py-10 text-red-600">डेटा मिळवता आला नाही</div>;
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
-      <header className="bg-green-500 text-white px-4 py-3 flex justify-between items-center sticky top-0 z-50 shadow-md">
+      {/* <header className="bg-green-500 text-white px-4 py-3 flex justify-between items-center sticky top-0 z-50 shadow-md">
         <button onClick={() => navigate("/SettingsPage")} className="p-2 hover:bg-green-600 rounded-md">☰</button>
         <h1 className="text-sm sm:text-lg font-semibold flex-1 text-center truncate">{fullName}</h1>
         <button onClick={() => navigate("/FarmerProfile")} className="text-2xl p-2 hover:bg-green-600 rounded-md">
           <FaUser />
         </button>
-      </header>
+      </header> */}
+      <Header title={fullName} />
 
       <div className="w-full flex justify-center mt-4 px-4">
         <div className="w-full max-w-md bg-white p-4 rounded-lg shadow-sm">
