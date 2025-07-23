@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0 viewport-fit=cover" />
   <meta name="theme-color" content="#10b981" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <!-- <meta name="apple-mobile-web-app-status-bar-style" content="default" /> -->
@@ -16,6 +16,7 @@
   <style>
     /* Safe area insets for mobile devices */
     .safe-area-inset-bottom {
+      padding-top: env(safe-area-inset-top);
       padding-bottom: env(safe-area-inset-bottom);
     }
 
@@ -23,6 +24,13 @@
     html {
       scroll-behavior: smooth;
     }
+
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+    }
+
 
     /* Prevent zoom on input focus on iOS */
     @media screen and (-webkit-min-device-pixel-ratio: 0) {
@@ -50,7 +58,7 @@
 </head>
 
 <body>
-    <script src="https://unpkg.com/@tmcw/togeojson@0.16.0/dist/togeojson.umd.js"></script>
+  <script src="https://unpkg.com/@tmcw/togeojson@0.16.0/dist/togeojson.umd.js"></script>
   <div id="root"></div>
   <script type="module" src="/src/main.jsx"></script>
 </body>
