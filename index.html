@@ -9,6 +9,8 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
+
   <title>PlotMapping</title>
   <style>
     /* Safe area insets for mobile devices */
@@ -47,6 +49,7 @@
 </head>
 
 <body>
+    <script src="https://unpkg.com/@tmcw/togeojson@0.16.0/dist/togeojson.umd.js"></script>
   <div id="root"></div>
   <script type="module" src="/src/main.jsx"></script>
 </body>
