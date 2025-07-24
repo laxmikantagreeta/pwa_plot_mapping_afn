@@ -1,6 +1,5 @@
 
-// src/components/FarmSelector.js
-import React, { useContext, useMemo, useEffect, useState } from "react";
+import React, { useContext, useMemo, useEffect } from "react";
 import { FarmerContext } from "../contexts/FarmerContext";
 
 // Marathi mappings
@@ -11,14 +10,11 @@ const seasonMap = {
 };
 
 export const cropMap = {
-  // Cereals & Pulses
   "Soybean": "सोयाबीन",
   "Wheat": "गहू",
   "Cotton": "कापूस",
   "Maize": "मका",
   "Gram": "हरभरा",
-
-  // Fruits
   "Pomegranate": "डाळिंब",
   "Banana": "केळं",
   "Mango": "आंबा",
@@ -26,8 +22,6 @@ export const cropMap = {
   "Guava": "पेरू",
   "Orange": "संत्रं",
   "Sweet Lime": "मोसंबी",
-
-  // Vegetables
   "Tomato": "टोमॅटो",
   "Onion": "कांदा",
   "Potato": "बटाटा",
@@ -36,7 +30,6 @@ export const cropMap = {
   "Cabbage": "कोबी",
   "Cauliflower": "फुलकोबी"
 };
-
 
 const FarmSelector = ({ selectedSeason, setSelectedSeason, selectedField, setSelectedField }) => {
   const { farmerData } = useContext(FarmerContext);
@@ -63,6 +56,7 @@ const FarmSelector = ({ selectedSeason, setSelectedSeason, selectedField, setSel
     return `${cropMarathi} (${fieldObj.totalAreaInAcre} एकर)`;
   }, [fields, selectedField]);
 
+  // Restore from sessionStorage or auto-select first season and field
   useEffect(() => {
     if (!farmerData || farms.length === 0) return;
 
@@ -78,9 +72,22 @@ const FarmSelector = ({ selectedSeason, setSelectedSeason, selectedField, setSel
 
       if (savedField && matchingFields.some(f => f.fieldCode === savedField)) {
         setSelectedField(savedField);
+        return;
       }
     }
-  }, [farmerData, farms]);
+
+    // If no saved values or invalid, select first available
+    const firstSeason = seasons[0];
+    if (firstSeason) {
+      setSelectedSeason(firstSeason);
+      const firstField = farms
+        .filter(f => f.seasonType === firstSeason)
+        .flatMap(f => f.fields || [])[0];
+      if (firstField) {
+        setSelectedField(firstField.fieldCode);
+      }
+    }
+  }, [farmerData, farms, seasons]);
 
   useEffect(() => {
     sessionStorage.setItem("selectedSeason", selectedSeason);
@@ -99,12 +106,16 @@ const FarmSelector = ({ selectedSeason, setSelectedSeason, selectedField, setSel
             value={selectedSeason}
             onChange={(e) => {
               setSelectedSeason(e.target.value);
-              setSelectedField("");
+              const firstField = farms
+                .filter(f => f.seasonType === e.target.value)
+                .flatMap(f => f.fields || [])[0];
+              setSelectedField(firstField?.fieldCode || "");
             }}
           >
-            <option value="">-- निवडा --</option>
             {seasons.map((season, idx) => (
-              <option key={idx} value={season}>{seasonMap[season] || season}</option>
+              <option key={idx} value={season}>
+                {seasonMap[season] || season}
+              </option>
             ))}
           </select>
           <div className="absolute right-0 top-1/2 -translate-y-1/2 text-gray-600 text-sm pointer-events-none">▼</div>
@@ -120,11 +131,11 @@ const FarmSelector = ({ selectedSeason, setSelectedSeason, selectedField, setSel
             className="appearance-none w-full bg-transparent text-sm text-gray-800 pr-6 focus:outline-none border-b-2 border-gray-300 focus:border-green-500 pb-1"
             value={selectedField}
             onChange={(e) => setSelectedField(e.target.value)}
-            disabled={!selectedSeason}
           >
-            <option value="">-- निवडा --</option>
             {fields.map((field, idx) => (
-              <option key={idx} value={field.fieldCode}>{field.fieldCode}</option>
+              <option key={idx} value={field.fieldCode}>
+                {field.fieldCode}
+              </option>
             ))}
           </select>
           <div className="absolute right-0 top-1/2 -translate-y-1/2 text-gray-600 text-sm pointer-events-none">▼</div>
