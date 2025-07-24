@@ -1,6 +1,5 @@
 
-
-import React, { useContext, useState, useEffect, useRef } from "react";
+import React, { useContext, useState, useEffect, useRef, useMemo  } from "react";
 import { GoogleMap, useLoadScript, Polygon, KmlLayer } from "@react-google-maps/api";
 import { useNavigate } from "react-router-dom";
 import FooterNav from "../components/Footer";
@@ -65,6 +64,17 @@ export default function DashboardPage() {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: "AIzaSyDS7w2pVZPBpibKmaY_PsMv3AJohcDSSrA",
   });
+
+  const sortedDates = useMemo(() => {
+    return [...dateOptions].sort((a, b) => new Date(b) - new Date(a));
+  }, [dateOptions]);
+
+  useEffect(() => {
+    if (sortedDates.length > 0 && !selectedDate) {
+      setSelectedDate(sortedDates[0]); // auto-select latest
+    }
+  }, [sortedDates, selectedDate]);
+
 
   useEffect(() => {
     const farm = farmerData?.farms?.find(f => f.seasonType === selectedSeason);
@@ -189,6 +199,7 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
+      {/* bg-gray-50 min-h-screen pb-20 */}
       {/* <header className="bg-green-500 text-white px-4 py-3 flex justify-between items-center sticky top-0 z-50 shadow-md">
         <button onClick={() => navigate("/SettingsPage")} className="p-2 hover:bg-green-600 rounded-md">☰</button>
         <h1 className="text-sm sm:text-lg font-semibold flex-1 text-center truncate">{fullName}</h1>
@@ -207,7 +218,7 @@ export default function DashboardPage() {
             setSelectedField={setSelectedField}
           />
 
-          <div className="flex items-center mt-4">
+          {/* <div className="flex items-center mt-4">
             <span className="text-sm font-bold text-gray-800 mr-2 min-w-[80px]">तारीख</span>
             <span className="text-sm text-gray-800 mr-2">:</span>
             <div className="relative flex-1">
@@ -224,7 +235,27 @@ export default function DashboardPage() {
               </select>
               <div className="absolute right-0 top-1/2 -translate-y-1/2 text-gray-600 text-sm pointer-events-none">▼</div>
             </div>
+          </div> */}
+          <div className="flex items-center mt-4">
+            <span className="text-sm font-bold text-gray-800 mr-2 min-w-[80px]">तारीख</span>
+            <span className="text-sm text-gray-800 mr-2">:</span>
+            <div className="relative flex-1">
+              <select
+                className="appearance-none w-full bg-transparent text-sm text-gray-800 pr-6 focus:outline-none border-b-2 border-gray-300 focus:border-green-500 pb-1"
+                value={selectedDate}
+                onChange={(e) => setSelectedDate(e.target.value)}
+                disabled={sortedDates.length === 0}
+              >
+                {sortedDates.map(date => (
+                  <option key={date} value={date}>
+                    {new Date(date).toLocaleDateString("en-GB")}
+                  </option>
+                ))}
+              </select>
+              <div className="absolute right-0 top-1/2 -translate-y-1/2 text-gray-600 text-sm pointer-events-none">▼</div>
+            </div>
           </div>
+
         </div>
       </div>
 
