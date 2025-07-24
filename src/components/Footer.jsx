@@ -5,16 +5,25 @@ import { MdSatelliteAlt } from "react-icons/md";
 import { WiDayCloudy } from "react-icons/wi";
 import { GiFlyingBeetle } from "react-icons/gi";
 import { MdOutlinePestControl } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const FooterNav = ({ selected, onSelect }) => {
   const navigate = useNavigate();
+  const location = useLocation();
+  
   const handleSelect = (tabName) => {
     onSelect(tabName);
     if (tabName === "DashboardPage") {
-      navigate("/DashboardPage");
+      // navigate("/DashboardPage");
+      if (location.pathname !== "/DashboardPage") {
+        navigate("/DashboardPage");
+      }
     } else if (tabName === "ForecastTable") {
-      navigate("/ForecastTable");
+      // navigate("/ForecastTable");
+      if (location.pathname !== "/ForecastTable") {
+        navigate("/ForecastTable");
+      }
     }
   };
   return (
