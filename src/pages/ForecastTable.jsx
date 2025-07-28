@@ -21,8 +21,8 @@ const ForecastTable = () => {
   const [loadingForecast, setLoadingForecast] = useState(false);
   const [forecastError, setForecastError] = useState("");
 
-  const BASE_DATE = "2025-07-22";
-  // const BASE_DATE = new Date().toISOString().split("T")[0];
+  // const BASE_DATE = "2025-07-22";
+  const BASE_DATE = new Date().toISOString().split("T")[0];
  
   const fullName =
     farmerData?.name && farmerData?.lastName
